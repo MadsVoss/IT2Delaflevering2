@@ -1,45 +1,38 @@
 import com.sun.org.apache.xpath.internal.objects.XNumber;
+import data.TempListener;
+import data.TempMeasure;
+import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.input.MouseEvent;
 
+import java.text.DateFormat;
 import java.util.Date;
 
-public class GUIController {
+public class GUIController implements TempListener {
+    public LineChart<String, Double> lineChart;
+    public XYChart.Series<String, Double> stringDoubleData = new XYChart.Series<>();
 
-    public LineChart lineChart;
+
 
     public void startTemperatur(MouseEvent mouseEvent) throws InterruptedException {
-        /*
-            System.out.println("Temperaturen er: " + String.format("%.1f", getTemp()));
-            Thread.sleep(1000);
+        TemperaturGenerator temperaturGenerator = new TemperaturGenerator();
+        new Thread(temperaturGenerator).start();
+        temperaturGenerator.register(this);
+        lineChart.getData().add(stringDoubleData);
+        lineChart.setCreateSymbols(false);
 
+    }
 
-         */
-
-        int date = 1;
-
-        for (int i = 0; i < 10 ; i++) {
-
-            String nyDate = Integer.toString(date);
-            //lineChart.getData().clear();
-            XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
-            series.getData().add(new XYChart.Data<String, Number>(nyDate, getTemp()));
-            lineChart.getData().add(series);
-            date ++;
-            Thread.sleep(1000);
-
-        }
-
-        }
-
-
-
-    public static double getTemp() {
-        double max = 47;
-        double min = 33;
-        double temperatur = (Math.random() *((max-min) +1) + min);
-        return temperatur;
+    @Override
+    public void notifyTemp(final TempMeasure temp) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                stringDoubleData.getData().add(new XYChart.Data<String, Double>(temp.getTime().toString(), temp.getMeasurement()));
+            }
+        });
     }
 }
+
 
