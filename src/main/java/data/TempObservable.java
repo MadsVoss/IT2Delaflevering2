@@ -1,5 +1,5 @@
 package data;
 
-public interface TempObservable {
+public interface TempObservable extends Runnable{
     void register(TempListener listener);
 }

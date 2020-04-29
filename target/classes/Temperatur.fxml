@@ -6,15 +6,18 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIController">
    <children>
-      <Button layoutX="280.0" layoutY="340.0" mnemonicParsing="false" onAction="#startTemperatur" onMousePressed="#startTemperatur" text="Start" />
+      <Button layoutX="14.0" layoutY="365.0" mnemonicParsing="false" onAction="#startTemperatur" text="Start" />
        <LineChart fx:id="lineChart" prefHeight="340.0" prefWidth="600.0" title="Temperatur" AnchorPane.rightAnchor="0.0">
            <xAxis>
-               <CategoryAxis fx:id="Tid" endMargin="60.0" label="Tid i sekunder" side="BOTTOM" startMargin="0.0" />
+               <CategoryAxis fx:id="Tid" endMargin="60.0" label="Tid i sekunder" prefHeight="32.0" prefWidth="417.0" startMargin="0.0" />
            </xAxis>
            <yAxis>
                <NumberAxis fx:id="Temperatur" label="Temperatur i grader" lowerBound="35.0" prefHeight="155.0" prefWidth="46.0" side="LEFT" upperBound="45.0" />
            </yAxis>
        </LineChart>
+      <Button fx:id="startOptag" layoutX="55.0" layoutY="365.0" mnemonicParsing="false" onAction="#startOptagning" text="Optag" />
+       <TextField fx:id="idField" layoutX="451.0" layoutY="2.0" />
+      <Button layoutX="287.0" layoutY="365.0" mnemonicParsing="false" onAction="#hentData" text="Hent data" />
 
    </children>
 </AnchorPane>
