@@ -1,4 +1,3 @@
-import com.sun.org.apache.xpath.internal.objects.XNumber;
 import data.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -7,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -19,13 +17,13 @@ public class GUIController implements TempListener {
 
 
     private boolean record;
-    private TemperaturDAO temperaturDAO = new TemperaturDAOSQLImpl();
+    private TemperatureDAO temperatureDAO = new TemperatureDAOSQLImpl();
 
 
-    public void startTemperatur(ActionEvent actionEvent) throws InterruptedException {
-        TemperaturGenerator temperaturGenerator = new TemperaturGenerator();
-        new Thread(temperaturGenerator).start();
-        temperaturGenerator.register(this);
+    public void startTemperature(ActionEvent actionEvent) throws InterruptedException {
+        TemperatureGenerator temperatureGenerator = new TemperatureGenerator();
+        new Thread(temperatureGenerator).start();
+        temperatureGenerator.register(this);
         lineChart.getData().add(stringDoubleData);
         lineChart.setCreateSymbols(false);
 
@@ -36,7 +34,7 @@ public class GUIController implements TempListener {
         //Gem data
         if (this.record){
             temp.setCpr(idField.getText());
-            temperaturDAO.save(temp);
+            temperatureDAO.save(temp);
         }
         //Vis data
         Platform.runLater(new Runnable() {
@@ -47,10 +45,6 @@ public class GUIController implements TempListener {
         });
     }
 
-    public void startOptagning(ActionEvent actionEvent) {
-        this.record = !this.record;
-
-    }
 
     public void hentData(ActionEvent actionEvent) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/LoadGUI.fxml"));
@@ -62,6 +56,10 @@ public class GUIController implements TempListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void startRecording(ActionEvent actionEvent) {
+        this.record = !this.record;
     }
 }
 

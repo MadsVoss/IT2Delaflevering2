@@ -4,12 +4,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TemperaturDAOSQLImpl implements TemperaturDAO {
+public class TemperatureDAOSQLImpl implements TemperatureDAO {
     @Override
     public void save(TempMeasure tempMeasure) {
         Connection conn = SQLConnector.getConnection();
         try {
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO temperaturData(cpr, temperatur, tid) VALUES (?, ?, ?)");
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO temperatureData(cpr, temperature, time) VALUES (?, ?, ?)");
             preparedStatement.setString(1, tempMeasure.getCpr());
             preparedStatement.setDouble(2,tempMeasure.getMeasurement());
             preparedStatement.setTimestamp(3,tempMeasure.getTime());
@@ -23,15 +23,15 @@ public class TemperaturDAOSQLImpl implements TemperaturDAO {
         List<TempMeasure> data = new ArrayList<>();
         Connection connection = SQLConnector.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM temperaturData WHERE id = ? ");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM temperatureData WHERE cpr = ? ");
             preparedStatement.setString(1, "");
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 TempMeasure tempMeasure = new TempMeasure();
-                tempMeasure.setId(Integer.parseInt(resultSet.getString("")));
-                tempMeasure.setCpr(resultSet.getString("cpr"));
-                tempMeasure.setMeasurement(resultSet.getDouble("temperatur"));
-                tempMeasure.setTime(resultSet.getTimestamp("tid"));
+                tempMeasure.setId(Integer.parseInt(resultSet.getString("id")));
+                tempMeasure.setCpr(id);
+                tempMeasure.setMeasurement(resultSet.getDouble("temperature"));
+                tempMeasure.setTime(resultSet.getTimestamp("time"));
                 data.add(tempMeasure);
             }
         } catch (SQLException e) {

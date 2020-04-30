@@ -1,6 +1,6 @@
 import data.TempMeasure;
-import data.TemperaturDAO;
-import data.TemperaturDAOSQLImpl;
+import data.TemperatureDAO;
+import data.TemperatureDAOSQLImpl;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -8,16 +8,15 @@ import java.util.List;
 
 public class LoadController {
     public TextField cprField;
-    public TextArea temperaturDataArea;
+    public TextArea temperatureDataArea;
 
-    public void HentData(ActionEvent actionEvent) {
-        TemperaturDAO temperaturDAO = new TemperaturDAOSQLImpl();
-        List<TempMeasure> temperaturData = temperaturDAO.load(cprField.getText());
+    public void LoadData(ActionEvent actionEvent) {
+        TemperatureDAO temperatureDAO = new TemperatureDAOSQLImpl();
+        List<TempMeasure> temperatureData = temperatureDAO.load(cprField.getText());
         String text = "";
-        for (TempMeasure data: temperaturData) {
-            text += "CPR: " + data.getCpr() + ", Temperatur: " + data.getMeasurement() + ", Time: " + data.getTime() + "\r\n";
+        for (TempMeasure data: temperatureData) {
+            text += "CPR: " + data.getCpr() + ", Temperature: " + data.getMeasurement() + ", Time: " + data.getTime() + "\r\n";
         }
-        temperaturDataArea.setText(text);
+        temperatureDataArea.setText(text);
     }
 }
-

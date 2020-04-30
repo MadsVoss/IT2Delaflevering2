@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Date;
 
-public class TemperaturGenerator implements Runnable, TempObservable {
+public class TemperatureGenerator implements Runnable, TempObservable {
 
     private TempListener listener;
     private DateFormat klokkeFormat;
@@ -43,8 +43,8 @@ public class TemperaturGenerator implements Runnable, TempObservable {
     public static double getTemp() {
         double max = 47;
         double min = 33;
-        double temperatur = (Math.random() *((max-min) +1) + min);
-        return temperatur;
+        double temperature = (Math.random() *((max-min) +1) + min);
+        return temperature;
     }
 
     @Override
