@@ -19,7 +19,4 @@ public class SQLConnector {
         return connection;
     }
 
-    private SQLConnector(){
-
-    }
 }
