@@ -17,7 +17,7 @@
        </LineChart>
       <Button fx:id="startRecord" layoutX="55.0" layoutY="365.0" mnemonicParsing="false" onAction="#startRecording" text="Record" />
        <TextField fx:id="idField" layoutX="451.0" layoutY="2.0" />
-      <Button layoutX="287.0" layoutY="365.0" mnemonicParsing="false" onAction="#hentData" text="Load data" />
+      <Button layoutX="287.0" layoutY="365.0" mnemonicParsing="false" onAction="#loadDataPage" text="Load data" />
 
    </children>
 </AnchorPane>

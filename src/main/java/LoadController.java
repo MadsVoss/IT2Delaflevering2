@@ -15,7 +15,7 @@ public class LoadController {
         List<TempMeasure> temperatureData = temperatureDAO.load(cprField.getText());
         String text = "";
         for (TempMeasure data: temperatureData) {
-            text += "CPR: " + data.getCpr() + ", Temperature: " + data.getMeasurement() + ", Time: " + data.getTime() + "\r\n";
+            text += "CPR: " + data.getCpr() + ", Temperature: " + String.format("%.1f", data.getMeasurement()) + "°C, Time: " + data.getTime() + "\r\n";
         }
         temperatureDataArea.setText(text);
     }

@@ -23,7 +23,7 @@ public class TemperatureDAOSQLImpl implements TemperatureDAO {
         List<TempMeasure> data = new ArrayList<>();
         Connection connection = SQLConnector.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM temperatureData WHERE cpr = ? ");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM temperatureData  WHERE cpr = ? ");
             preparedStatement.setString(1, "");
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){

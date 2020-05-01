@@ -46,7 +46,7 @@ public class GUIController implements TempListener {
     }
 
 
-    public void hentData(ActionEvent actionEvent) {
+    public void loadDataPage(ActionEvent actionEvent) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/LoadGUI.fxml"));
         try {
             AnchorPane anchorPane = fxmlLoader.load();
