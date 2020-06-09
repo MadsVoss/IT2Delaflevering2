@@ -12,9 +12,9 @@ public class LoadController {
 
     public void LoadData(ActionEvent actionEvent) {
         TemperatureDAO temperatureDAO = new TemperatureDAOSQLImpl();
-        List<TempMeasure> temperatureData = temperatureDAO.load(cprField.getText());
+        List<TempMeasure> temperatureData = temperatureDAO.loadTemp(cprField.getText());
         String text = "";
-        for (TempMeasure data: temperatureData) {
+        for (TempMeasure data : temperatureData) {
             text += "CPR: " + data.getCpr() + ", Temperature: " + String.format("%.1f", data.getMeasurement()) + "°C, Time: " + data.getTime() + "\r\n";
         }
         temperatureDataArea.setText(text);

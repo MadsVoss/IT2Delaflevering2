@@ -1,6 +1,7 @@
 import data.TempListener;
 import data.TempMeasure;
 import data.TempObservable;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -11,7 +12,7 @@ public class TemperatureGenerator implements Runnable, TempObservable {
     @Override
     public void run() {
 
-        while(true) {
+        while (true) {
             //Henter temperaturen fra getTemp
             double temp = getTemp();
             Date date = new Date();
@@ -20,7 +21,7 @@ public class TemperatureGenerator implements Runnable, TempObservable {
             tempMeasure.setMeasurement(temp);
             tempMeasure.setTime(time);
 
-            if(listener != null) {
+            if (listener != null) {
                 listener.notifyTemp(tempMeasure);
             }
             try {
@@ -31,11 +32,12 @@ public class TemperatureGenerator implements Runnable, TempObservable {
         }
 
     }
+
     //Simulere en temperatur vha. Math.random()
     public static double getTemp() {
         double max = 44;
         double min = 33;
-        double temperature = (Math.random() *((max-min) +1) + min);
+        double temperature = (Math.random() * ((max - min) + 1) + min);
         return temperature;
     }
 

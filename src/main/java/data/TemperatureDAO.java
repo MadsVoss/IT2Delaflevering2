@@ -3,7 +3,7 @@ package data;
 import java.util.List;
 
 public interface TemperatureDAO {
-    void save(TempMeasure tempMeasure);
-    List<TempMeasure> load(String id);
+    void saveTemp(TempMeasure tempMeasure);
+    List<TempMeasure> loadTemp(String id);
 }
 

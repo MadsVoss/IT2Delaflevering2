@@ -14,7 +14,7 @@ public class SQLTester {
         try {
             Statement statement = instance.createStatement();
             ResultSet show_tables = statement.executeQuery("SHOW TABLES");
-            while (show_tables.next()){
+            while (show_tables.next()) {
                 System.out.println(show_tables.getString(1));
             }
         } catch (SQLException e) {

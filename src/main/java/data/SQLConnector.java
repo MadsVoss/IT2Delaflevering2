@@ -7,9 +7,9 @@ import java.sql.SQLException;
 //Opretter en forbindelse til MySQL
 public class SQLConnector {
     private static Connection connection;
-    public static Connection getConnection(){
+    public static Connection getConnection() {
         try {
-            if (connection ==null || connection.isClosed()) {
+            if (connection == null || connection.isClosed()) {
                 connection = DriverManager.getConnection("jdbc:mysql://db.diplomportal.dk/s190608?"
                         + "user=s190608&password=5USibIiZSIh7RR85vBFgH");
             }

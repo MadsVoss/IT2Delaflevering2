@@ -29,7 +29,7 @@ public class TempMeasure {
     }
 
     public void setTime(Timestamp time) {
-       this.time = time;
+        this.time = time;
     }
 
     public int getId() {
