@@ -1,94 +1,80 @@
+/*
+@author {Mads Voss - S190608, Mikkel Bech - S183950,
+ */
+
+import data.EKGListener;
+import data.EKGObservable;
+
 import java.util.LinkedList;
 
-// This class has a listgui, producer (adds items to listgui
-// and consumber (removes items).
-public class ProducerConsumer {
+public class ProducerConsumer implements EKGObservable {
     Sensor sensor;
-    // Create a listgui shared by producer and consumer
-    // Size of listgui is 2.
-    LinkedList<Integer> listgui = new LinkedList<>();
-    LinkedList<Integer> listdb = new LinkedList<>();
+    LinkedList<Integer> listGUI = new LinkedList<>();
+    LinkedList<Integer> listDB = new LinkedList<>();
     int capacity = 1000;
+    private EKGListener listenerGUI;
+    private EKGListener listenerDB;
 
-    // Function called by producer thread
     public void produce() throws InterruptedException {
-
         while (true) {
             synchronized (this) {
-                // producer thread waits while listgui
-                // is full
-                while (listgui.size() == capacity)
+                while (listGUI.size() == capacity)
                     wait();
                 int value = sensor.getData();
-                //System.out.println("Producer produced-"
-                //        + value);
-
-                // to insert the jobs in the listgui
-                listgui.add(value);
-
-                // notifies the consumer thread that
-                // now it can start consuming
+                //System.out.println("Producer produced-"+ value);
+                listGUI.add(value);
+                listDB.add(value);
                 notify();
-
-                // makes the working of program easier
-                // to understand
-                Thread.sleep(1000);
+                Thread.sleep(20);
             }
         }
     }
-
-    // Function called by consumer thread
     public void consume() throws InterruptedException {
         while (true) {
             synchronized (this) {
-                // consumer thread waits while listgui
-                // is empty
-                while (listgui.size() < 50)
+                while (listGUI.size() < 50)
                     wait();
-
-                // to retrive the ifrst job in the listgui
-                LinkedList<Integer> removedObject = listgui;
-                listgui = new LinkedList<>();
-                listgui.removeAll(removedObject);
-
-                // Wake up producer thread
+                LinkedList<Integer> removedObject = listGUI;
+                listGUI = new LinkedList<>();
+                if(listenerGUI != null) {
+                    listenerGUI.notifyEKG(removedObject);
+                }
                 notify();
-
-                // and sleep
-                Thread.sleep(1000);
+                Thread.sleep(20);
             }
         }
     }
-
-    // Function called by consumer thread
     public void consume2() throws InterruptedException {
         while (true) {
             synchronized (this) {
-                // consumer thread waits while listgui
-                // is empty
-                while (listgui.size() < 100)
+                while (listDB.size() < 100)
                     wait();
-
-                // to retrive the ifrst job in the listgui
-                LinkedList<Integer> removedObject = listdb;
-                listdb = new LinkedList<>();
-                listdb.removeAll(removedObject);
-
-                // Wake up producer thread
+                LinkedList<Integer> removedObject = listDB;
+                listDB = new LinkedList<>();
+                if(listenerDB != null) {
+                    listenerDB.notifyEKG(removedObject);
+                }
                 notify();
-
-                // and sleep
-                Thread.sleep(1000);
+                Thread.sleep(20);
             }
         }
     }
-
     public void addToQueue(int data) {
         synchronized (this){
-            this.listgui.add(data);
-            this.listdb.add(data);
+            this.listGUI.add(data);
+            this.listDB.add(data);
             notify();
 
         }
+    }
+
+    @Override
+    public void registerGUI(EKGListener listenerGUI) {
+        this.listenerGUI = listenerGUI;
+    }
+
+    @Override
+    public void registerDB(EKGListener listenerDB) {
+        this.listenerDB = listenerDB;
     }
 }

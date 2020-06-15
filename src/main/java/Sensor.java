@@ -4,7 +4,7 @@ public class Sensor {
     //Opretter SerialPort så vi senere kan gå ind og få fat i det hvor pulsmåleren sidder. Derefter opretter vi en string som vi kan sætte et resultat ind i.
     private SerialPort serialPort = null;
     private String result = null;
-    private int dataSerialport = 0;
+    private int value = 0;
 
 
     //Denne finder ud af hvor sensoren er plugget til og "snakker" med den
@@ -31,16 +31,19 @@ public class Sensor {
             //Her siger vi at vi kun vil have resultatet hvis den string fra Arduino er 14 tegn eller længere. Så vi sikrer at vi ikke får en masse fejlmålinger som 0 taller osv med ind.
             if (serialPort.getInputBufferBytesCount() > 0) {
                 result = serialPort.readString();
-                dataSerialport = Integer.parseInt(result.substring(result.indexOf(""), result.indexOf("#")));
+                if(result != "") {
+                    //split ind til et int array
+                    value = Integer.parseInt(result.substring(result.indexOf(""), result.indexOf("#")));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return dataSerialport;
+        return value;
     }
 
     public static void main(String[] args) throws InterruptedException {
-        Sensor sensor = new Sensor(0);
+        Sensor sensor = new Sensor(1);
         while(true){
             Thread.sleep(10);
             int data = sensor.getData();
