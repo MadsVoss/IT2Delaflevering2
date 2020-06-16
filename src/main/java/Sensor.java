@@ -1,3 +1,4 @@
+/** @author {Mads Voss, Mikkel Bech, Dalia Pireh, Sali Azou, Beant Sandhu}*/
 import jssc.*;
 
 public class Sensor {

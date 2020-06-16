@@ -1,7 +1,4 @@
-/*
-@author {Mads Voss - S190608, Mikkel Bech - S183950,
- */
-
+/** @author {Mads Voss, Mikkel Bech, Dalia Pireh, Sali Azou, Beant Sandhu}*/
 import data.EKGListener;
 import data.EKGObservable;
 import java.util.LinkedList;

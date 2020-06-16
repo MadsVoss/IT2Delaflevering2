@@ -1,3 +1,4 @@
+/** @author {Mads Voss, Mikkel Bech, Dalia Pireh, Sali Azou, Beant Sandhu}*/
 public class Threads {
     public static void main(String[] args)
             throws InterruptedException {

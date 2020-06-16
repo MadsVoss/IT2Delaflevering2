@@ -1,3 +1,4 @@
+/** @author {Mads Voss, Mikkel Bech, Dalia Pireh, Sali Azou, Beant Sandhu}*/
 import data.TempMeasure;
 import data.TemperatureDAO;
 import data.TemperatureDAOSQLImpl;
