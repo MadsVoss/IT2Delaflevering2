@@ -9,7 +9,6 @@ public class GUI extends Application {
 
     @Override
     public void start(final Stage stage) throws Exception {
-        //Bruger FXMLLoader til at loade vores fxml fil Temperatur og viser det når programmet starter
         GUI.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Temperature.fxml"));
         AnchorPane anchorPane = loader.load();

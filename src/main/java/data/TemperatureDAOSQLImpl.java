@@ -40,11 +40,4 @@ public class TemperatureDAOSQLImpl implements TemperatureDAO {
         }
         return data;
     }
-
-
 }
-
-
-
-
-

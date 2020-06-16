@@ -11,7 +11,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -22,7 +21,7 @@ public class TemperatureController implements TempListener {
     public XYChart.Series<String, Double> stringDoubleData = new XYChart.Series<>();
     public TextField idField;
     private boolean record;
-    private TemperatureDAO temperatureDAO = new TemperatureDAOSQLImpl();
+    private final TemperatureDAO temperatureDAO = new TemperatureDAOSQLImpl();
 
     final int WINDOW_SIZE = 20;
     private ScheduledExecutorService scheduledExecutorService;
@@ -33,19 +32,15 @@ public class TemperatureController implements TempListener {
         temperatureGenerator.register(this);
         lineChart.getData().add(stringDoubleData);
         lineChart.setCreateSymbols(false);
-
-        // setup a scheduled executor to periodically put data into the chart
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     }
     @Override
     public void notifyTemp(final TempMeasure temp) {
-        //Gem data
         if (this.record) {
             temp.setCpr(idField.getText());
             temperatureDAO.saveTemp(temp);
         }
-        //Vis data
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -71,17 +66,6 @@ public class TemperatureController implements TempListener {
     public void startRecording(ActionEvent actionEvent) {
         this.record = !this.record;
     }
-
-
-
-
-
-        // this is used to display time in HH:mm:ss format
-        //final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-
-
-
-
 }
 
 

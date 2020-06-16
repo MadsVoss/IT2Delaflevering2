@@ -4,7 +4,6 @@
 
 import data.EKGListener;
 import data.EKGObservable;
-
 import java.util.LinkedList;
 
 public class ProducerConsumer implements EKGObservable {

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-//Opretter en forbindelse til MySQL
 public class SQLConnector {
     private static Connection connection;
     public static Connection getConnection() {
@@ -18,5 +17,4 @@ public class SQLConnector {
         }
         return connection;
     }
-
 }
