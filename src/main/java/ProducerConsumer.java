@@ -1,12 +1,14 @@
 /** @author {Mads Voss, Mikkel Bech, Dalia Pireh, Sali Azou, Beant Sandhu}*/
+import data.EKGDTO;
 import data.EKGListener;
 import data.EKGObservable;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ProducerConsumer implements EKGObservable {
     Sensor sensor;
-    LinkedList<Integer> listGUI = new LinkedList<>();
-    LinkedList<Integer> listDB = new LinkedList<>();
+    LinkedList<EKGDTO> listGUI = new LinkedList<>();
+    LinkedList<EKGDTO> listDB = new LinkedList<>();
     int capacity = 1000;
     private EKGListener listenerGUI;
     private EKGListener listenerDB;
@@ -16,54 +18,47 @@ public class ProducerConsumer implements EKGObservable {
             synchronized (this) {
                 while (listGUI.size() == capacity)
                     wait();
-                int value = sensor.getData();
+                List<EKGDTO> value = sensor.getData();
                 //System.out.println("Producer produced-"+ value);
-                listGUI.add(value);
-                listDB.add(value);
+                for (EKGDTO i: value) {
+                    listGUI.add(i);
+                    listDB.add(i);
+                    System.out.println("producer produce: "+ i);
+                }
                 notify();
-                Thread.sleep(20);
+
             }
+            Thread.sleep(1);
         }
     }
     public void consume() throws InterruptedException {
         while (true) {
+            LinkedList<EKGDTO> consumeListGUI;
             synchronized (this) {
-                while (listGUI.size() < 50)
+                while (listGUI.size() < 15)
                     wait();
-                LinkedList<Integer> removedObject = listGUI;
-                listGUI = new LinkedList<>();
+                consumeListGUI = listGUI;
                 if(listenerGUI != null) {
-                    listenerGUI.notifyEKG(removedObject);
+                    listenerGUI.notifyEKG(consumeListGUI);
                 }
-                notify();
-                Thread.sleep(20);
+
             }
         }
     }
     public void consume2() throws InterruptedException {
         while (true) {
+            LinkedList<EKGDTO> consumeListDB;
             synchronized (this) {
-                while (listDB.size() < 100)
+                while (listDB.size() < 10)
                     wait();
-                LinkedList<Integer> removedObject = listDB;
-                listDB = new LinkedList<>();
-                if(listenerDB != null) {
-                    listenerDB.notifyEKG(removedObject);
+                consumeListDB = listDB;
+                if (listenerDB != null) {
+                    listenerDB.notifyEKG(consumeListDB);
+                    System.out.println("consumer consume: " + consumeListDB);
                 }
-                notify();
-                Thread.sleep(20);
             }
         }
     }
-    public void addToQueue(int data) {
-        synchronized (this){
-            this.listGUI.add(data);
-            this.listDB.add(data);
-            notify();
-
-        }
-    }
-
     @Override
     public void registerGUI(EKGListener listenerGUI) {
         this.listenerGUI = listenerGUI;
