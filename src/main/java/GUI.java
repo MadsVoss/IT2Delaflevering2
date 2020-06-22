@@ -11,7 +11,8 @@ public class GUI extends Application {
     @Override
     public void start(final Stage stage) throws Exception {
         GUI.stage = stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Temperature.fxml"));
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/Temperature.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/EKGGUI.fxml"));
         AnchorPane anchorPane = loader.load();
         Scene scene = new Scene(anchorPane);
         stage.setScene(scene);

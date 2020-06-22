@@ -1,4 +1,5 @@
 /** @author {Mads Voss, Mikkel Bech, Dalia Pireh, Sali Azou, Beant Sandhu}*/
+/*
 import data.TempListener;
 import data.TempMeasure;
 import data.TemperatureDAO;
@@ -71,5 +72,5 @@ public class TemperatureController implements TempListener {
 
 
 
-
+*/
 

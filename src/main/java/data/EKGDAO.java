@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface EKGDAO {
     void saveEkg(LinkedList<EKGDTO> ekgdtobatch);
-    List<EKGDTO> loadEKG(String id);
+    LinkedList<EKGDTO> loadEKG(String id);
 }

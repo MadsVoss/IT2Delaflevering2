@@ -35,8 +35,8 @@ public class EKGDAOSQLImpl implements EKGDAO {
     }
 
     @Override
-    public List<EKGDTO> loadEKG(String id) {
-        List<EKGDTO> data = new ArrayList<>();
+    public LinkedList<EKGDTO> loadEKG(String id) {
+        LinkedList<EKGDTO> data = new LinkedList<>();
         Connection connection = SQLConnector.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ekgData WHERE cpr = ? ");
