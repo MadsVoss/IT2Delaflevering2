@@ -1,8 +1,9 @@
 package data;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public interface EKGDAO {
-    void saveEkg(EKGMeasure ekgMeasure);
-    List<EKGMeasure> loadEKG(String id);
+    void saveEkg(LinkedList<EKGDTO> ekgdtobatch);
+    List<EKGDTO> loadEKG(String id);
 }

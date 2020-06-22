@@ -6,6 +6,7 @@ public class EKGDTO {
     private double ekg;
     private String cpr;
     private Timestamp timestamp;
+    private int id;
 
 
     public double getEkg() {
@@ -30,5 +31,14 @@ public class EKGDTO {
 
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

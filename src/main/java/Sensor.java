@@ -16,7 +16,7 @@ public class Sensor {
         try {
             serialPort = new SerialPort(portNames[portnummer]);
             serialPort.openPort();
-            serialPort.setParams(115200, 8, 1, 0);
+            serialPort.setParams(38400, 8, 1, 0);
             serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
             serialPort.setDTR(true);
             serialPort.setRTS(true);
