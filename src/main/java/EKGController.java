@@ -14,11 +14,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-
-
 
 public class EKGController implements EKGListener {
 
@@ -29,7 +24,6 @@ public class EKGController implements EKGListener {
     private final EKGDAO ekgDAO = new EKGDAOSQLImpl();
 
     final int WINDOW_SIZE = 149;
-    private ScheduledExecutorService scheduledExecutorService;
 
 
     @Override
@@ -54,10 +48,7 @@ public class EKGController implements EKGListener {
             }
 
         });
-        //   @Override
-        // public void run() {
 
-        // });
     }
 
     public void startEKG(ActionEvent actionEvent) throws InterruptedException {
@@ -66,7 +57,6 @@ public class EKGController implements EKGListener {
         //pc.registerDB(this);
         pc.registerGUI(this);
         lineChart.setCreateSymbols(false);
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
        new Thread(new Runnable() {
            @Override
            public void run() {
