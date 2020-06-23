@@ -24,7 +24,7 @@ public class Sensor {
             e.printStackTrace();
         }
     }
-    public List<EKGDTO> getData() {
+    public LinkedList<EKGDTO> getData() {
         try {
             if (serialPort.getInputBufferBytesCount() > 0) {
                 result = serialPort.readString();
@@ -32,14 +32,26 @@ public class Sensor {
                 if (result != null) {
                     result = result.substring(0, result.length() - 1);
                     rawValues = result.split(" ");
-                    List<EKGDTO> data = new LinkedList<>();
+                    LinkedList<EKGDTO> data = new LinkedList<>();
                     for (int i = 0; i < rawValues.length; i++) {
                         EKGDTO ekgDTO = new EKGDTO();
                         try {
-                            ekgDTO.setEkg(Double.parseDouble(rawValues[i]));
-                            ekgDTO.setTimestamp(new Timestamp(System.currentTimeMillis()));
-                            data.add(ekgDTO);
-                            Thread.sleep(1);
+                            if (!rawValues[i].equals("")) {
+                                try {
+                                    ekgDTO.setEkg(Double.parseDouble(rawValues[i]));
+                                    if (ekgDTO.getEkg() > 100) {
+                                        ekgDTO.setTimestamp(new Timestamp(System.currentTimeMillis()));
+                                        data.add(ekgDTO);
+                                        Thread.sleep(1);
+                                    }
+
+                                }
+                                catch (NumberFormatException e){
+                                    System.out.println("Discarding data");
+                                }
+
+                            }
+
 
                         } catch (InterruptedException e) {
                             e.printStackTrace();

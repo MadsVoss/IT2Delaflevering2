@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ProducerConsumer implements EKGObservable {
-    Sensor sensor;
+    Sensor sensor = new Sensor(0);
     LinkedList<EKGDTO> listGUI = new LinkedList<>();
     LinkedList<EKGDTO> listDB = new LinkedList<>();
     int capacity = 1000;
@@ -18,12 +18,13 @@ public class ProducerConsumer implements EKGObservable {
             synchronized (this) {
                 while (listGUI.size() == capacity)
                     wait();
-                List<EKGDTO> value = sensor.getData();
-                //System.out.println("Producer produced-"+ value);
+                LinkedList<EKGDTO> value = sensor.getData();
+                if (value != null) {
                 for (EKGDTO i: value) {
                     listGUI.add(i);
                     listDB.add(i);
                     System.out.println("producer produce: "+ i);
+                }
                 }
                 notify();
 
@@ -35,12 +36,13 @@ public class ProducerConsumer implements EKGObservable {
         while (true) {
             LinkedList<EKGDTO> consumeListGUI;
             synchronized (this) {
-                while (listGUI.size() < 15)
+                while (listGUI.size() < 150)
                     wait();
                 consumeListGUI = listGUI;
                 if(listenerGUI != null) {
                     listenerGUI.notifyEKG(consumeListGUI);
                 }
+             listGUI = new LinkedList<>();
 
             }
         }
@@ -49,13 +51,14 @@ public class ProducerConsumer implements EKGObservable {
         while (true) {
             LinkedList<EKGDTO> consumeListDB;
             synchronized (this) {
-                while (listDB.size() < 10)
+                while (listDB.size() < 100)
                     wait();
                 consumeListDB = listDB;
                 if (listenerDB != null) {
                     listenerDB.notifyEKG(consumeListDB);
                     System.out.println("consumer consume: " + consumeListDB);
                 }
+                listDB = new LinkedList<>();
             }
         }
     }
@@ -67,5 +70,53 @@ public class ProducerConsumer implements EKGObservable {
     @Override
     public void registerDB(EKGListener listenerDB) {
         this.listenerDB = listenerDB;
+    }
+
+    public void runThreads () {
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    produce();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    consume();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Thread t3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    consume2();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        t1.start();
+        t2.start();
+        t3.start();
+
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 }

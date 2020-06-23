@@ -19,20 +19,23 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 
+
 public class EKGController implements EKGListener {
-    public LineChart<String, Double> lineChart;
-    public XYChart.Series<String, Double> stringDoubleData = new XYChart.Series<>();
+
+    public LineChart<Double, Double> lineChart;
+    public XYChart.Series<Double, Double> stringDoubleData = new XYChart.Series<>();
     public TextField idField;
     private boolean record;
     private final EKGDAO ekgDAO = new EKGDAOSQLImpl();
 
-    final int WINDOW_SIZE = 20;
+    final int WINDOW_SIZE = 149;
     private ScheduledExecutorService scheduledExecutorService;
+
 
     @Override
     public void notifyEKG(LinkedList<EKGDTO> ekgData) {
         if (this.record) {
-            for (int i = 0; i <ekgData.size() ; i++) {
+            for (int i = 0; i < ekgData.size(); i++) {
                 ekgData.get(i).setCpr(idField.getText());
             }
             ekgDAO.saveEkg(ekgData);
@@ -41,23 +44,39 @@ public class EKGController implements EKGListener {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                stringDoubleData.getData().clear();
                 for (int i = 0; i < ekgData.size(); i++) {
-                    stringDoubleData.getData().add(new XYChart.Data<String, Double>(ekgData.getTimestamp().toString(), ekgData.getEkg()));
+                    stringDoubleData.getData().add(new XYChart.Data<Double, Double>((double) i, ekgData.get(i).getEkg()));
                 }
 
                 if (stringDoubleData.getData().size() > WINDOW_SIZE)
                     stringDoubleData.getData().remove(0);
             }
+
         });
+        //   @Override
+        // public void run() {
+
+        // });
     }
 
-    public void startEKG(ActionEvent actionEvent) throws InterruptedException{
-        ProducerConsumer pc = new ProducerConsumer();
-        new Thread(pc).start();//SEPARAT Thread klasse
-        pc.register(this);
+    public void startEKG(ActionEvent actionEvent) throws InterruptedException {
         lineChart.getData().add(stringDoubleData);
+        ProducerConsumer pc = new ProducerConsumer();
+        //pc.registerDB(this);
+        pc.registerGUI(this);
         lineChart.setCreateSymbols(false);
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+               pc.runThreads();
+               lineChart.getData().add(stringDoubleData);
+
+           }
+       }).start();
+
+
     }
 
     public void startRecordingEKG(ActionEvent actionEvent) {
