@@ -1,3 +1,4 @@
+/** @author {Mads Voss, Mikkel Bech, Dalia Pireh, Sali Azou, Beant Sandhu}*/
 package data;
 
 import java.sql.Timestamp;
@@ -32,7 +33,6 @@ public class EKGDTO {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
-
 
     public int getId() {
         return id;
